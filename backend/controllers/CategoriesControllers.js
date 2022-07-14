@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 
 const Category = require('../modules/categoriesModel');
+const Product = require('../modules/productsModel');
 
 const getCategories = asyncHandler( async (req, res) => {
     const category = await Category.find();
@@ -49,9 +50,17 @@ const deleteCategories = asyncHandler( async (req, res) => {
     res.status(200).json({ id: req.params.id });
 });
 
+const categorieDetail = asyncHandler( async (req, res) => {
+    const categoryId = await Category.findById(req.params.id)
+    const productId = await Product.find({ category: req.params.id });
+
+    res.status(200).json({categoryId: categoryId, productId: productId})
+});
+
 module.exports = {
     getCategories,
     postCategories,
     putCategories,
     deleteCategories,
+    categorieDetail
 }

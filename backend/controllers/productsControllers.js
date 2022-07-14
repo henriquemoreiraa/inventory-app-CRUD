@@ -1,9 +1,9 @@
 const asyncHandler = require('express-async-handler');
 
-const Products = require('../modules/productsModel');
+const Product = require('../modules/productsModel');
 
 const getProducts = asyncHandler( async (req, res) => {
-    const product = await Products.find();
+    const product = await Product.find();
 
     res.status(200).json({ product: product });
 });
@@ -14,7 +14,7 @@ const postProducts = asyncHandler( async (req, res) => {
         throw new Error('Please add the data!');
     };
 
-    const product = await Products.create({
+    const product = await Product.create({
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
@@ -26,14 +26,14 @@ const postProducts = asyncHandler( async (req, res) => {
 });
 
 const putProducts = asyncHandler( async (req, res) => {
-    const productId = await Products.findById(req.params.id);
+    const productId = await Product.findById(req.params.id);
 
     if (!productId) {
         res.status(400);
         throw new Error('Product not fount');
     };
 
-    const updatedProduct = await Products.findByIdAndUpdate(req.params.id, req.body, {
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true
     });
 
@@ -41,7 +41,7 @@ const putProducts = asyncHandler( async (req, res) => {
 });
 
 const deleteProducts = asyncHandler( async (req, res) => {
-    const productId = await Products.findById(req.params.id);
+    const productId = await Product.findById(req.params.id);
 
     if (!productId) {
         res.status(400);
@@ -53,9 +53,21 @@ const deleteProducts = asyncHandler( async (req, res) => {
     res.status(200).json({id: req.params.id});
 });
 
+const categorieDetail = asyncHandler( async (req, res) => {
+    const productId = await Product.findById(req.params.id);
+
+    if (!productId) {
+        res.status(400);
+        throw new Error('Product not found');
+    };
+
+    res.status(200).json(productId);
+});
+
 module.exports = {
     getProducts,
     postProducts,
     putProducts,
     deleteProducts,
+    categorieDetail
 }
