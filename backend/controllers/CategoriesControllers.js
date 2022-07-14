@@ -1,50 +1,50 @@
 const asyncHandler = require('express-async-handler');
 
-const Categorie = require('../modules/categoriesModel');
+const Category = require('../modules/categoriesModel');
 
 const getCategories = asyncHandler( async (req, res) => {
-    const categorie = await Categorie.find();
+    const category = await Category.find();
 
-    res.status(200).json({ categorie: categorie });
+    res.status(200).json({ category: category });
 });
 
 const postCategories = asyncHandler( async (req, res) => {
     if(!req.body.name) {
         res.status(400);
-        throw new Error('Please add a categorie name!');
+        throw new Error('Please add a category name!');
     };
 
-    const categorie = await Categorie.create({
+    const category = await Category.create({
         name: req.body.name,
     });
 
-    res.status(200).json({ categorie: categorie });
+    res.status(200).json({ category: category });
 });
 
 const putCategories = asyncHandler( async (req, res) => {
-    const categorieId = await Categorie.findById(req.params.id);
+    const categoryId = await Category.findById(req.params.id);
 
-    if (!categorieId) {
+    if (!categoryId) {
         res.status(400);
-        throw new Error('Categorie not fount');
+        throw new Error('Category not fount');
     };
 
-    const updatedCategorie = await Categorie.findByIdAndUpdate(req.params.id, req.body, {
+    const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
     });
 
-    res.status(200).json(updatedCategorie);
+    res.status(200).json(updatedCategory);
 });
 
 const deleteCategories = asyncHandler( async (req, res) => {
-    const categorieId = await Categorie.findById(req.params.id);
+    const categoryId = await Category.findById(req.params.id);
 
-    if (!categorieId) {
+    if (!categoryId) {
         res.status(400);
-        throw new Error('Categorie not found');
+        throw new Error('Category not found');
     };
 
-    await categorieId.remove();
+    await categoryId.remove();
 
     res.status(200).json({ id: req.params.id });
 });

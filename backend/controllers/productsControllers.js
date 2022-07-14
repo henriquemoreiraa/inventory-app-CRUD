@@ -26,14 +26,31 @@ const postProducts = asyncHandler( async (req, res) => {
 });
 
 const putProducts = asyncHandler( async (req, res) => {
+    const productId = await Products.findById(req.params.id);
 
+    if (!productId) {
+        res.status(400);
+        throw new Error('Product not fount');
+    };
 
-    res.status(200).json({message: 'ola'});
+    const updatedProduct = await Products.findByIdAndUpdate(req.params.id, req.body, {
+        new: true
+    });
+
+    res.status(200).json(updatedProduct);
 });
 
 const deleteProducts = asyncHandler( async (req, res) => {
+    const productId = await Products.findById(req.params.id);
 
-    res.status(200).json({message: 'ola'});
+    if (!productId) {
+        res.status(400);
+        throw new Error('Product not found');
+    };
+
+    await productId.remove();
+
+    res.status(200).json({id: req.params.id});
 });
 
 module.exports = {
