@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded( { extended: false } ));
 
 app.use('/categories', require('./routes/categories'));
+app.use('/products', require('./routes/products'));
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
 

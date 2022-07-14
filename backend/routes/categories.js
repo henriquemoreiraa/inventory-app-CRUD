@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getCategories, postCategories, putCategories, deleteCategories } = require('../controllers/CategoriesControllers');
+const { getCategories, postCategories, putCategories, deleteCategories } = require('../controllers/categoriesControllers');
 
 router.route('/').get(getCategories).post(postCategories);
 
